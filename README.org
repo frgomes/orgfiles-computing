@@ -1,0 +1,118 @@
+* Notes on Design Principles, Programming Languages, Tooling and Frameworks
+** Design Principles
+*** Object Oriented Programming
+ In this section, we describe key concepts involving Object Oriented Programming (OOP) and why modern systems are slowly finding their way out of OOP.
+**** OOP is not about objects of the real world
+ An assumption involving OOP is that our program, having so-called /objects/, can mimick objects of the real world. For example, we know from geometry that a /square/ is just a particular case of a /rectangle/ which happens to have both =height= and =weight= measuring just the same. Since we've learned this concept from geometry, it's more or less straightforward to believe that =class Square= is just a particular case of =class Rectangle= or, in other words, =class Square extends Rectangle=.
+
+ As we will see later when we visit the Liskov Substitution Principle in far more detail, =class Square= is not really a particular case of =class Rectangle= because an instance of =Square= could not be substituted by an instance of a =Rectangle= without breaking the application. In other words, when you say that =class B extends A= you mean to say that B adds extra functionality of A, keeping the original functionality of A instact, which translates to say that overloaded methods should honour the behavior of the base class, something which does not really happen in the case of =class Square= and =class Rectangle=. As already stated, this subject will be better covered later.
+
+
+ It's widely assumed that /object oriented programming/ is about mimicking /objects/ of the real world, but actually, this is amisconception since we've just showed above in the case of squares and rectangles, even though without going deep in details. This sort misconception arises because the coined terminology /object oriented/ leads to multiple [[http://rationalwiki.org/wiki/Equivocation][fallacies of equivocation]] in our programs every time we state that behaviour of /objects in our applications/ mimick behaviour of /objects in the real world/, in particular when we state that relationships between objects in our applications mimick relationships between objects in the real world.
+
+ Instead of /object oriented/, it's argued that /message oriented/ would be more appropriate, despite arguably: a more difficult terminology to be explained and understood. Everyone understands what an /object/ is in the real world and so, everyone understand what an /object/ is in programming... and everyone understands wrong! Maybe another term like /message oriented/ if coined instead of /object oriented/ would be more appropriate but unfortunately, the past cannot be rewritten and /object oriented/ is here to stay.
+
+ Anyway, a /message oriented programming/ could be understood as a /communication between endpoints/ which transfers data between these endpoints, leading to a change of internal state between these endpoints. A good example would be an instance of an object =A= which calls a method of object =B=, making =B= change its internal state. The very fact that you /call a method/ can be understood as a /message passing/ between =A= and =B=, making =B= change its internal state.
+
+**** OOP promotes shared mutable state
+
+ One of the pillars of OOP is a concept called /encapsulation/ which states that an /object/ is the sole responsible for managing its own data. In other words, and object carries /data implicitly/ which supports the implementation of a certain /behaviour explicitly/. In other words, when we call a method from an /object/ we are, in general, changing its internal state. Back to the concept of /message oriented programming/, when A calls B a logic entanglement is created between A and B, which means to say that the /state of A/ is dependent of the /state of B/. This creates a problem in multithreaded applications as we will see.
+
+ Imagine one =Thread T1= where =object A= calls =object B= and suppose that there's another =Thread T2= which contains a reference to the same =object B=. There's chance that something inside =Thread T2= calls =object B=, provoking a change in its internal state, leading to a side effect in =object A=, since the internal state of =object A= depends on =object B=.
+
+ Another problem which arises from objects keeping internal state is related to web services. Imagine a web server which creates several objects in memory when a request arrives, each object keeping a certain amount of information as its internal state. If millions of requests arrive in a matter of few seconds, very quickly the entire memory will be filled with objects still alive and still holding some internal state. In this case, we might get rid of the problem entirely simply adopting the design principle of not maintaining any internal state whatsoever.
+
+*** TODO [0/3] Functional Programming
+ - [ ] Functional Programming is not anything new
+ - [ ] Functions as first class citizens
+ - [ ] Immutability
+*** TODO [0/5] SOLID principles for system design
+**** TODO [0/0] Single responsibility
+  It states that and object should have only one responsibility. Doing so, when its implementation changes, it delivers more functionality on the dimension covered by its responsibility, not causing any harm to other functionalities.
+**** TODO [0/0] Open for extension / Close for change
+ In addition to single responsibility, an object should allow exchange in its functionality, but should prevent changes in current implemented functionalities. The /extension/, in one hand, can be understood as exposure of additional methods in the object itself. In other hand, can be understood as allowing extended classes easily borrow implementation from a given class, extending functionalities this way.
+
+ Being /close to change/ can be understood as hiding internal implementation details which could change the object internal state. It can also be understood as design pattern which guides to relatively high granularity of the code so that functionalities are implemented as a composition of finer grained functionalities. This way, by composing fine grained functionalities in new creative ways we can accomplish innovative functionalities without really touching the small building block which composes such functionalities.
+    
+**** TODO [0/0] Liskov Substitution Principle
+ It basically states that subtypes could be substitued by their base types without breaking the application.
+
+**** TODO [0/0] Interface Segregation
+**** TODO [0/0] Dependency Inversion
+
+*** TODO ACID principles for database systems
+
+*** TODO CAP principle for distributed systems
+
+*** TODO CQRS principle for microservices
+
+*** TODO Event source
+
+*** TODO Kafka?
+
+** [0/0] Java
+ We try to group subjects by their relative importance when a given version of the Java language was currently mainstream.
+*** [0/2] Java 5 language features
+ - [ ] Generics
+ - [ ] Ant build system
+*** [0/6] Java 6 performance and stability
+ - [ ] Primitive types, boxing and unboxing
+ - [ ] String pool
+ - [ ] Hashing algorithm
+ - [ ] Low level concurrency
+ - [ ] High level concurrency
+ - [ ] Maven build system
+*** [0/8] Java7
+ - [ ] Closeable
+ - [ ] Garbage Collector
+ - [ ] Files, Paths, FileSystems
+ - [ ] Protocol Handlers
+ - [ ] Support for scripting languages
+ - [ ] Other changes
+ - [ ] Gradle build system
+ - [ ] Disruptor
+*** [0/6] Java8
+ - [ ] Lambdas and closures
+
+ - [ ] SAM
+
+ - [ ] Collections
+
+ - [ ] Streams
+  
+ - [ ] Support for unsigned numeric types
+ - [ ] Other changes
+
+** [0/0] Scala
+*** [0/4] Principles
+ - [ ] Multi paradigm
+ - [ ] First class functions
+  - [ ] Immutability
+  - [ ] No explicit static allocation
+  - [ ] SBT build system
+**** [0/3] Language Overview (L1)
+     DEADLINE: <2017-01-16 Mon>
+
+  - [ ] Classes and Objects
+
+  - [ ] Methods and Functions
+
+  - [ ] Traits and mixins
+
+
+**** [0/4] Language Overview (L2)
+     DEADLINE: <2017-01-16 Mon>
+
+  - [ ] Pattern matching
+  - [ ] Early initialization
+  - [ ] Early return
+  - [ ] Types, types and more types
+
+**** [0/2] Language Overview (L3)
+     DEADLINE: <2017-01-16 Mon>
+
+  - [ ] Tail recursion @tailrec
+
+  - [ ] Delimited continuations @cps
+
+ 
