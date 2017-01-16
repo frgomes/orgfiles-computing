@@ -54,65 +54,163 @@
  We try to group subjects by their relative importance when a given version of the Java language was currently mainstream.
 *** [0/2] Java 5 language features
  - [ ] Generics
- - [ ] Ant build system
 *** [0/6] Java 6 performance and stability
  - [ ] Primitive types, boxing and unboxing
  - [ ] String pool
  - [ ] Hashing algorithm
  - [ ] Low level concurrency
  - [ ] High level concurrency
- - [ ] Maven build system
-*** [0/8] Java7
- - [ ] Closeable
- - [ ] Garbage Collector
- - [ ] Files, Paths, FileSystems
- - [ ] Protocol Handlers
- - [ ] Support for scripting languages
- - [ ] Other changes
- - [ ] Gradle build system
- - [ ] Disruptor
-*** [0/6] Java8
- - [ ] Lambdas and closures
+*** Java7
+**** Exception Handling Changes
+ - Use /try with resources/ statement with any object that implements =AutoCloseable=.
+ - The try-with-resources statement rethrows the primary exception if closing a resource throws another exception.
+#+BEGIN_SRC java
+static String readFirstLineFromFile(String path) throws IOException {
+    try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+        return br.readLine();
+    }
+}
 
- - [ ] SAM
+#+END_SRC
+**** Working with Files
+ - Use the =Path= interface instead of the =File= class.
+ - The =Files= class has static methods for copying, moving, and deleting files, and for creating files and directories.
+ - You can read and write all characters, or all lines, of a text file with a single command.
+#+BEGIN_SRC 
+// read all lines
+List<String> lines = Files.readAllLines(Paths.get("file"), StandardCharsets.UTF_8);
 
- - [ ] Collections
+// read the entire file as a single String
+String text = new String(Files.readAllBytes(Paths.get("file")), StandardCharsets.UTF_8);
+#+END_SRC
+**** Implementing the equals, hashCode, and compareTo Methods
+ - Use =Objects.equals= for null-safe equality testing.
+ - =Objects.hash= makes it simple to implement the hashCode method.
+ - When comparing numbers in a comparator, use the static compare method.
+#+BEGIN_SRC 
+  int x = ...;
+  int y = ...;
+  boolean b = (Integer.compare(x, y) == 0);
+#+END_SRC
+**** Security Requirements
+ - Applets and Java Web Start applications continue to be supported in corporate environments, but they may no longer be viable for home users.
+*** [0/0] Java8
+**** [0/11] Lambda expressions
+***** [ ] Functional interfaces
+***** [ ] Method references
+***** [ ] Constructor references
+***** [ ] Variable scope
+***** [ ] Default methods
+***** [ ] Static methods in interfaces
+***** [ ] Deferred Execution
+***** [ ] Compositions
+***** [ ] Laziness
+***** [ ] Parallel operations
+***** [ ] Dealing exceptions
+***** [ ] Monadic Operations
+**** Collections
+Methods added to Collection Classes
+| class/interface | new methods                                                                                                      |
+|-----------------+------------------------------------------------------------------------------------------------------------------|
+| Iterable        | forEach                                                                                                          |
+| Collection      | removeIf                                                                                                         |
+| List            | replaceAll, sort                                                                                                 |
+| Map             | forEach, replace, replaceAll, remove(key, value), putIfAbsent, compute, computeIfAbsent, computeIfPresent, merge |
+| Iterator        | forEachRemaining                                                                                                 |
+| BitSet          | stream                                                                                                           |
 
- - [ ] Streams
-  
- - [ ] Support for unsigned numeric types
- - [ ] Other changes
+**** [0/14] Stream API
+***** [ ] From Iteration to Stream Operations
+***** [ ] Stream Creation
+***** [ ] The filter, map, and flatMap Methods
+***** [ ] Extracting Substreams and Combining Streams
+***** [ ] Stateful Transformations
+***** [ ] Simple Reductions
+***** [ ] The Optional Type
+***** [ ] Reduction Operations
+***** [ ] Collecting Results
+***** [ ] Collecting into Maps
+***** [ ] Grouping and Partitioning
+***** [ ] Primitive Type Streams
+***** [ ] Parallel Streams
+***** [ ] Functional Interfaces 
+**** [0/4] Concurrency Enhancements 
+***** Atomic values
+Instead of writing
+#+BEGIN_SRC 
+do {   
+  oldValue = largest.get();
+  newValue = Math.max(oldValue, observed);
+} while (!largest.compareAndSet(oldValue, newValue));
+#+END_SRC
+you can now write
+#+BEGIN_SRC 
+largest.updateAndGet(x -> Math.max(x, observed));
+#+END_SRC
+
+Methods =updateAndGet=, =getAndUpda=, =getAndAccumulate= are provided for the classes AtomicInteger, AtomicIntegerArray, AtomicIntegerFieldUpdater, AtomicLongArray, AtomicLongFieldUpdater, AtomicReference, AtomicReferenceArray, and AtomicReferenceFieldUpdater.
+
+A =LongAdder= are composed internally of multiple variables whose collective sum is the current value. Multiple threads can update different summands, and new summands are automatically provided when the number of threads increases. This is efficient in the common situation where the value of the sum is not needed until after all work has been done. The performance improvement can be substantial.
+
+A =LongAccumulator= is similar to =LongAdder= internally, but its constructor employs the idea of neutral element of the operation (or identity value).
+
+=DoubleAdder= and =DoubleAccumulator= work in similar ways, but for =double= values.
+
+
+***** [ ] ConcurrentHashMap enhancements
+***** [ ] Parallel Array enhancements
+***** [ ] Completable Futures
+**** [0/7] New Date and Time API
+***** [ ] The Time Line
+***** [ ] Local Dates
+***** [ ] Date Adjusters
+***** [ ] Local Time
+***** [ ] Zoned Time
+***** [ ] Formatting and Parsing
+***** [ ] Interoperating with Legacy Code 
+**** [0/11] Miscellaneous Goodies
+***** Strings
+Joining strings finally becomes easier.
+#+BEGIN_SRC 
+String.join(", ", a, b, c);
+#+END_SRC
+***** Number classes
+- Integer and types now support unsigned arithmetic.
+- Detection of overflow and underflow involving types =int= and =long= via new methods =Math.(add|subtract|multiply, increment|decrement|negate)Exact=
+ =int= and =long=.
+***** [ ] Collections
+***** [ ] Working with files
+***** [ ] Annotations
+***** [ ] SAM
+***** [ ] Support for unsigned numeric types
+***** [ ] Other changes
 
 ** [0/0] Scala
 *** [0/4] Principles
- - [ ] Multi paradigm
- - [ ] First class functions
-  - [ ] Immutability
-  - [ ] No explicit static allocation
-  - [ ] SBT build system
+***** [ ] Multi paradigm
+***** [ ] First class functions
+***** [ ] Immutability
+***** [ ] No explicit static allocation
+***** [ ] SBT build system
 **** [0/3] Language Overview (L1)
      DEADLINE: <2017-01-16 Mon>
 
-  - [ ] Classes and Objects
-
-  - [ ] Methods and Functions
-
-  - [ ] Traits and mixins
-
+***** [ ] Classes and Objects
+***** [ ] Methods and Functions
+***** [ ] Traits and mixins
 
 **** [0/4] Language Overview (L2)
      DEADLINE: <2017-01-16 Mon>
 
-  - [ ] Pattern matching
-  - [ ] Early initialization
-  - [ ] Early return
-  - [ ] Types, types and more types
+***** [ ] Pattern matching
+***** [ ] Early initialization
+***** [ ] Early return
+***** [ ] Types, types and more types
 
 **** [0/2] Language Overview (L3)
      DEADLINE: <2017-01-16 Mon>
 
-  - [ ] Tail recursion @tailrec
-
-  - [ ] Delimited continuations @cps
+***** Tail recursion @tailrec
+***** Delimited continuations @cps
 
  
