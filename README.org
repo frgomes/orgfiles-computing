@@ -27,9 +27,9 @@
  - [ ] Functions as first class citizens
  - [ ] Immutability
 *** TODO [0/5] SOLID principles for system design
-**** TODO [0/0] Single responsibility
+**** Single responsibility
   It states that and object should have only one responsibility. Doing so, when its implementation changes, it delivers more functionality on the dimension covered by its responsibility, not causing any harm to other functionalities.
-**** TODO [0/0] Open for extension / Close for change
+**** Open for extension / Close for change
  In addition to single responsibility, an object should allow exchange in its functionality, but should prevent changes in current implemented functionalities. The /extension/, in one hand, can be understood as exposure of additional methods in the object itself. In other hand, can be understood as allowing extended classes easily borrow implementation from a given class, extending functionalities this way.
 
  Being /close to change/ can be understood as hiding internal implementation details which could change the object internal state. It can also be understood as design pattern which guides to relatively high granularity of the code so that functionalities are implemented as a composition of finer grained functionalities. This way, by composing fine grained functionalities in new creative ways we can accomplish innovative functionalities without really touching the small building block which composes such functionalities.
@@ -39,10 +39,44 @@
 
 **** TODO [0/0] Interface Segregation
 **** TODO [0/0] Dependency Inversion
+*** ACID principles for database systems
+ACID stands for Atomiciity, Consistency, Integrity and Durability.
 
-*** TODO ACID principles for database systems
+- *Atomicity* requires that each transaction be "all or nothing": if one part of the transaction fails, then the entire transaction fails, and the database state is left unchanged.
 
-*** TODO CAP principle for distributed systems
+- *Consistency* ensures that any transaction will bring the database from one valid state to another.
+
+- *Isolation* ensures that the concurrent execution of transactions results in a system state that would be obtained if transactions were executed sequentially, i.e., one after the other. Providing isolation is the main goal of concurrency control.
+
+- *Durability* ensures that once a transaction has been committed, it will remain so, even in the event of power loss, crashes, or errors.
+
+*** The CAP Theorem for distributed systems
+CAP stands for Consistency, Availability and network Partitions.
+
+The CAP Theorem states that all 3 principles cannot be achieved at the same time and so, applications must choose at most 2 of these principles.
+
+In distributed systems, in the face of network partitions, we have to choose between consistency and availability. Usually, high availability is a requirement, which means that we are left with the problem of having to manage an inconsistent global state.
+
+The common approach for the problem of an inconsistent global state is simply believing that we can go ahead and perform the operation we have to do. In case everything goes according to plan, we are fine; otherwise, we have to apologize and perform a compensative action later.
+
+#+BEGIN_QUOTE
+"It's easier to ask for forgiveness than it is to get permission."
+-- Grace Hopper
+#+END_QUOTE
+
+The idea of asking for forgiveness and performing a compensative action later is sometimes known as Apology-Oriented Programming.
+
+*** TODO Event Driven Architecture
+*** TODO [0/1] ACID 2.0 principles for distributed systems
+ACID in the context of distributed systems is a summary of a set of principles for scalable and resilient protocol and APIdesign. ACID, in this context, means: Associative, Commutative, Idempotent and Distributed.
+
+- *Associative* that messages can be grouped in batches.
+
+- [ ] *Commutative* means that order of messages do not matter.
+
+- *Idempotent* means that duplication of messages does not matter.
+
+- *Distributed* means distributed, just for making the acronym look beautiful.
 
 *** TODO CQRS principle for microservices
 
