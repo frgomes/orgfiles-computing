@@ -98,34 +98,34 @@ ACID in the context of distributed systems is a summary of a set of principles f
 **** Exception Handling Changes
  - Use /try with resources/ statement with any object that implements =AutoCloseable=.
  - The try-with-resources statement rethrows the primary exception if closing a resource throws another exception.
-#+BEGIN_SRC java
+#+BEGIN_EXAMPLE java
 static String readFirstLineFromFile(String path) throws IOException {
     try (BufferedReader br = new BufferedReader(new FileReader(path))) {
         return br.readLine();
     }
 }
 
-#+END_SRC
+#+END_EXAMPLE
 **** Working with Files
  - Use the =Path= interface instead of the =File= class.
  - The =Files= class has static methods for copying, moving, and deleting files, and for creating files and directories.
  - You can read and write all characters, or all lines, of a text file with a single command.
-#+BEGIN_SRC 
+#+BEGIN_EXAMPLE java
 // read all lines
 List<String> lines = Files.readAllLines(Paths.get("file"), StandardCharsets.UTF_8);
 
 // read the entire file as a single String
 String text = new String(Files.readAllBytes(Paths.get("file")), StandardCharsets.UTF_8);
-#+END_SRC
+#+END_EXAMPLE
 **** Implementing the equals, hashCode, and compareTo Methods
  - Use =Objects.equals= for null-safe equality testing.
  - =Objects.hash= makes it simple to implement the hashCode method.
  - When comparing numbers in a comparator, use the static compare method.
-#+BEGIN_SRC 
+#+BEGIN_EXAMPLE java
   int x = ...;
   int y = ...;
   boolean b = (Integer.compare(x, y) == 0);
-#+END_SRC
+#+END_EXAMPLE
 **** Security Requirements
  - Applets and Java Web Start applications continue to be supported in corporate environments, but they may no longer be viable for home users.
 *** [0/0] Java8
@@ -171,16 +171,16 @@ Methods added to Collection Classes
 **** [0/4] Concurrency Enhancements 
 ***** Atomic values
 Instead of writing
-#+BEGIN_SRC 
+#+BEGIN_EXAMPLE java
 do {   
   oldValue = largest.get();
   newValue = Math.max(oldValue, observed);
 } while (!largest.compareAndSet(oldValue, newValue));
-#+END_SRC
+#+END_EXAMPLE
 you can now write
-#+BEGIN_SRC 
+#+BEGIN_EXAMPLE java
 largest.updateAndGet(x -> Math.max(x, observed));
-#+END_SRC
+#+END_EXAMPLE
 
 Methods =updateAndGet=, =getAndUpda=, =getAndAccumulate= are provided for the classes AtomicInteger, AtomicIntegerArray, AtomicIntegerFieldUpdater, AtomicLongArray, AtomicLongFieldUpdater, AtomicReference, AtomicReferenceArray, and AtomicReferenceFieldUpdater.
 
@@ -189,7 +189,6 @@ A =LongAdder= are composed internally of multiple variables whose collective sum
 A =LongAccumulator= is similar to =LongAdder= internally, but its constructor employs the idea of neutral element of the operation (or identity value).
 
 =DoubleAdder= and =DoubleAccumulator= work in similar ways, but for =double= values.
-
 
 ***** [ ] ConcurrentHashMap enhancements
 ***** [ ] Parallel Array enhancements
@@ -205,9 +204,9 @@ A =LongAccumulator= is similar to =LongAdder= internally, but its constructor em
 **** [0/11] Miscellaneous Goodies
 ***** Strings
 Joining strings finally becomes easier.
-#+BEGIN_SRC 
+#+BEGIN_EXAMPLE java
 String.join(", ", a, b, c);
-#+END_SRC
+#+END_EXAMPLE
 ***** Number classes
 - Integer and types now support unsigned arithmetic.
 - Detection of overflow and underflow involving types =int= and =long= via new methods =Math.(add|subtract|multiply, increment|decrement|negate)Exact=
