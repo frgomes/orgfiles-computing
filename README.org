@@ -26,19 +26,39 @@
  - [ ] Functional Programming is not anything new
  - [ ] Functions as first class citizens
  - [ ] Immutability
-*** TODO [0/5] SOLID principles for system design
+*** SOLID principles for system design
 **** Single responsibility
+
+ * A class should have only one reason to change.
+
   It states that and object should have only one responsibility. Doing so, when its implementation changes, it delivers more functionality on the dimension covered by its responsibility, not causing any harm to other functionalities.
+
 **** Open for extension / Close for change
+
+ * Software entities should be open for extension but closed for modifications.
+
  In addition to single responsibility, an object should allow exchange in its functionality, but should prevent changes in current implemented functionalities. The /extension/, in one hand, can be understood as exposure of additional methods in the object itself. In other hand, can be understood as allowing extended classes easily borrow implementation from a given class, extending functionalities this way.
 
  Being /close to change/ can be understood as hiding internal implementation details which could change the object internal state. It can also be understood as design pattern which guides to relatively high granularity of the code so that functionalities are implemented as a composition of finer grained functionalities. This way, by composing fine grained functionalities in new creative ways we can accomplish innovative functionalities without really touching the small building block which composes such functionalities.
     
-**** TODO [0/0] Liskov Substitution Principle
- It basically states that subtypes could be substitued by their base types without breaking the application.
+**** Liskov Substitution Principle
 
-**** TODO [0/0] Interface Segregation
-**** TODO [0/0] Dependency Inversion
+ It basically states that base types could be substitued by extended types without breaking the application logic. In other words, this principle enforces the idea that, when we extend classes, we should be adding new functionality without breaking the existing functionality.
+
+**** Interface Segregation
+
+ * Clients should not be forced to depend upon interfaces that they don't use.
+
+This principle teaches us to take care how we write our interfaces. When we write our interfaces we should take care to add only methods that should be there. If we add methods that should not be there the classes implementing the interface will have to implement those methods as well.
+
+**** Dependency Inversion
+
+ * Abstractions should not depend on details. Details should depend on abstractions.
+
+ * High-level modules should not depend on low-level modules. Both should depend on abstractions.
+
+Dependency Inversion Principle states that we should decouple high level modules from low level modules, introducing an abstraction layer between the high level classes and low level classes. Further more it inverts the dependency: instead of writing our abstractions based on details, the we should write the details based on abstractions.
+
 *** ACID principles for database systems
 ACID stands for Atomiciity, Consistency, Integrity and Durability.
 
@@ -68,6 +88,7 @@ The idea of asking for forgiveness and performing a compensative action later is
 
 *** TODO Event Driven Architecture
 *** TODO [0/1] ACID 2.0 principles for distributed systems
+
 ACID in the context of distributed systems is a summary of a set of principles for scalable and resilient protocol and APIdesign. ACID, in this context, means: Associative, Commutative, Idempotent and Distributed.
 
 - *Associative* that messages can be grouped in batches.
@@ -78,7 +99,13 @@ ACID in the context of distributed systems is a summary of a set of principles f
 
 - *Distributed* means distributed, just for making the acronym look beautiful.
 
-*** TODO CQRS principle for microservices
+*** CQRS design pattern
+
+Command and Query Responsibility Segregation (CQRS) is a pattern that segregates the operations that read data (Queries) from the operations that update data (Commands) by using separate interfaces. This implies that the data models used for querying and updates are different. The main advantages of such approach are:
+
+ * reduce contantion in the data store;
+ * operations only employ the subset of the data they really need to take care of;
+ * we can apply distinct security policies to distinct operations.
 
 *** TODO Event source
 
