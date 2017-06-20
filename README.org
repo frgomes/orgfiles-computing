@@ -1,22 +1,21 @@
 * Notes on Design Principles, Programming Languages, Tooling and Frameworks
 ** Design Principles
 *** Object Oriented Programming
- In this section, we describe key concepts involving Object Oriented Programming (OOP) and why modern systems are slowly finding their way out of OOP.
-**** OOP is not about objects of the real world
+ In this section, we describe key concepts involving Object Oriented Programming (OOP) and why modern systems are slowly adopting alternatives techniques to patterns previously taught as desirable OOP patterns.
+**** OOP is not about objects, really
  An assumption involving OOP is that our program, having so-called /objects/, can mimick objects of the real world. For example, we know from geometry that a /square/ is just a particular case of a /rectangle/ which happens to have both =height= and =weight= measuring just the same. Since we've learned this concept from geometry, it's more or less straightforward to believe that =class Square= is just a particular case of =class Rectangle= or, in other words, =class Square extends Rectangle=.
 
- As we will see later when we visit the Liskov Substitution Principle in far more detail, =class Square= is not really a particular case of =class Rectangle= because an instance of =Square= could not be substituted by an instance of a =Rectangle= without breaking the application. In other words, when you say that =class B extends A= you mean to say that B adds extra functionality of A, keeping the original functionality of A instact, which translates to say that overloaded methods should honour the behavior of the base class, something which does not really happen in the case of =class Square= and =class Rectangle=. As already stated, this subject will be better covered later.
+ As we will see later when we visit the Liskov Substitution Principle in far more detail, =class Square= is not really a particular case of =class Rectangle= because, in brief, an instance of =Square= cannot be substituted by an instance of a =Rectangle= without breaking the application.
 
+ It's widely assumed that /Object Oriented Programming/ is about mimicking /objects/ of the real world, but actually, this is a misconception, since we've just showed above in the case of squares and rectangles, even though without going deep in details. This sort misconception arises because the coined terminology /object oriented/ leads to multiple [[http://rationalwiki.org/wiki/Equivocation][fallacies of equivocation]] in our programs every time we state that behaviour of /objects in our applications/ mimick behaviour of /objects in the real world/, in particular when we state that relationships between objects in our applications mimick relationships between objects in the real world.
 
- It's widely assumed that /object oriented programming/ is about mimicking /objects/ of the real world, but actually, this is amisconception since we've just showed above in the case of squares and rectangles, even though without going deep in details. This sort misconception arises because the coined terminology /object oriented/ leads to multiple [[http://rationalwiki.org/wiki/Equivocation][fallacies of equivocation]] in our programs every time we state that behaviour of /objects in our applications/ mimick behaviour of /objects in the real world/, in particular when we state that relationships between objects in our applications mimick relationships between objects in the real world.
+Some people argue that /message oriented programming/ would be more adequate than /object oriented programming/, despite arguably /message oriented/ would be a more difficult terminology to be understood than /object oriented/. Everyone understands what an /object/ is in the real world and so, everyone is potentially able to understand what an /object/ is in programming. This sensation of understand via a metaphor is unfortunately misleading, because the metaphor of objects in the real world does not really map correctly into objects in programming.
 
- Instead of /object oriented/, it's argued that /message oriented/ would be more appropriate, despite arguably: a more difficult terminology to be explained and understood. Everyone understands what an /object/ is in the real world and so, everyone understand what an /object/ is in programming... and everyone understands wrong! Maybe another term like /message oriented/ if coined instead of /object oriented/ would be more appropriate but unfortunately, the past cannot be rewritten and /object oriented/ is here to stay.
-
- Anyway, a /message oriented programming/ could be understood as a /communication between endpoints/ which transfers data between these endpoints, leading to a change of internal state between these endpoints. A good example would be an instance of an object =A= which calls a method of object =B=, making =B= change its internal state. The very fact that you /call a method/ can be understood as a /message passing/ between =A= and =B=, making =B= change its internal state.
+Maybe we could try /Message Oriented Programming'/. In a nutshell, /message oriented programming/ could be understood as a /communication between endpoints/ which transfers data between these endpoints, leading to a change of internal state between these endpoints. A good example would be an instance of an object =A= which calls a method of object =B=, making =B= change its internal state. The very fact that you /call a method/ can be understood as a /message passing/ between =A= and =B=, making =B= change its internal state.
 
 **** OOP promotes shared mutable state
 
- One of the pillars of OOP is a concept called /encapsulation/ which states that an /object/ is the sole responsible for managing its own data. In other words, and object carries /data implicitly/ which supports the implementation of a certain /behaviour explicitly/. In other words, when we call a method from an /object/ we are, in general, changing its internal state. Back to the concept of /message oriented programming/, when A calls B a logic entanglement is created between A and B, which means to say that the /state of A/ is dependent of the /state of B/. This creates a problem in multithreaded applications as we will see.
+ One of the pillars of OOP is a concept called /encapsulation/, which states that an /object/ is the sole responsible for managing its own data. In other words, and object carries /data implicitly/ which supports the implementation of a certain /behaviour explicitly/. In other words, when we call a method from an /object/ we are, in general, changing its internal state. Back to the concept of /message oriented programming/ above, when A calls B a logic entanglement is created between A and B, which means to say that the /state of A/ is dependent of the /state of B/. This creates a problem in multithreaded applications as we will see.
 
  Imagine one =Thread T1= where =object A= calls =object B= and suppose that there's another =Thread T2= which contains a reference to the same =object B=. There's chance that something inside =Thread T2= calls =object B=, provoking a change in its internal state, leading to a side effect in =object A=, since the internal state of =object A= depends on =object B=.
 
@@ -26,6 +25,7 @@
  - [ ] Functional Programming is not anything new
  - [ ] Functions as first class citizens
  - [ ] Immutability
+
 *** SOLID principles for system design
 **** Single responsibility
 
@@ -66,7 +66,7 @@ ACID stands for Atomiciity, Consistency, Integrity and Durability.
 
 - *Consistency* ensures that any transaction will bring the database from one valid state to another.
 
-- *Isolation* ensures that the concurrent execution of transactions results in a system state that would be obtained if transactions were executed sequentially, i.e., one after the other. Providing isolation is the main goal of concurrency control.
+- *Isolation* ensures that the concurrent execution of transactions result in a system state that would be obtained if transactions were executed sequentially, i.e., one after the other. Providing isolation is the main goal of concurrency control.
 
 - *Durability* ensures that once a transaction has been committed, it will remain so, even in the event of power loss, crashes, or errors.
 
@@ -87,6 +87,7 @@ The common approach for the problem of an inconsistent global state is simply be
 The idea of asking for forgiveness and performing a compensative action later is sometimes known as Apology-Oriented Programming.
 
 *** TODO Event Driven Architecture
+
 *** TODO [0/1] ACID 2.0 principles for distributed systems
 
 ACID in the context of distributed systems is a summary of a set of principles for scalable and resilient protocol and APIdesign. ACID, in this context, means: Associative, Commutative, Idempotent and Distributed.
@@ -156,19 +157,278 @@ String text = new String(Files.readAllBytes(Paths.get("file")), StandardCharsets
 **** Security Requirements
  - Applets and Java Web Start applications continue to be supported in corporate environments, but they may no longer be viable for home users.
 *** [0/0] Java8
-**** [0/11] Lambda expressions
-***** [ ] Functional interfaces
-***** [ ] Method references
-***** [ ] Constructor references
-***** [ ] Variable scope
-***** [ ] Default methods
-***** [ ] Static methods in interfaces
-***** [ ] Deferred Execution
-***** [ ] Compositions
-***** [ ] Laziness
-***** [ ] Parallel operations
-***** [ ] Dealing exceptions
-***** [ ] Monadic Operations
+**** The syntax of lambda expressions
+***** Functional interfaces
+These are many existing interfaces which contain a single abstract method (SAM) which encapsulates a block of code, such as ``Runnable``
+or ``Comparator``. For example, ``Comparator`` contains a single abstract method and, in this case, we can expect that we can employ a
+lambda expression, like this:
+
+```java
+Arrays.sort(words, (first, second) -> Integer.compare(first.length(), second.length()));
+```
+***** Method references
+This is the ability to pass a method reference as a short cut for a lambda expression. For example, take this lambda expression:
+
+```java
+button.setOnAction(event -> System.out.println(event));
+```
+
+Employing a method reference instead, it becomes:
+
+```java
+button.setOnAction(System.out::println);
+```
+***** Constructor references
+Similar to method references we've just seen above, we have the concept of constructor reference. For example:
+
+```java
+List<String> labels = ...;
+Stream<Button> stream = labels.stream().map(Button::new);
+List<Button> buttons = stream.collect(Collectors.toList());
+```
+***** Variable scope (or closure)
+A lambda expression is able to capture variables from outer scopes, like in the example below:
+
+```java
+String text = ...;
+int count = ...;
+Runnable r = () -> { doSomething(text, count); }
+```
+
+*NOTE:* it's a compilation error if you try to mutate captured variables inside the lamdba expression.
+***** Default methods
+This feature puts an end to the verbose pattern of declaring a method in an interface and having to define an abstract class just for
+the sake of defining a default implementation for such method. For example, ``Iterable`` contains a method ``forEach`` defined like
+this:
+
+```java
+public interface Iterable<T> {
+ ...
+    default void forEach(Consumer<? super T> action) {
+        Objects.requireNonNull(action);
+        for (T t : this) {
+            action.accept(t);
+        }
+    }
+ ...
+}
+```
+
+This change allows providing additional methods which are useful for lambda expressions, like ``forEach`` without breaking compatibility
+with legacy Java code.
+***** Static methods in interfaces
+Java8 allows ``static`` methods to be defined in interfaces, putting an end to the pattern of defining ``static`` methods in companion
+classes, like ``interface Path`` and companion class ``class Paths``.
+
+*NOTE:* There was never a techical reason why ``static`` methods were not allowed in interfaces up to Java7.
+**** Advantages of lambda expressions
+***** Deferred Execution
+
+Lambda expressions are not executed immediately, but later, in many different scenarios:
+ * on a separate thread;
+ * running multiple times;
+ * running only when necessary.
+***** Functional interfaces and clarity of parameters
+A ``@FunctionalInterface`` tells that an interface has exactly one abstract method, or single abstrace method (SAM).
+Functional interfaces also add more clarity and formalism to the code. For example, ``IntConsumer`` defines
+
+```java
+@FunctionalInterface
+public interface IntConsumer {
+
+    void accept(int value);
+
+    default IntConsumer andThen(IntConsumer after) {
+        Objects.requireNonNull(after);
+        return (int t) -> { accept(t); after.accept(t); };
+    }
+}
+```
+
+This is ``IntSupplier``:
+
+```java
+@FunctionalInterface
+public interface IntSupplier {
+
+    int getAsInt();
+}
+```
+
+These are functional interfaces in Java8:
+
+```bash
+$ ls jdk8/src/java/util/function
+BiConsumer.java            DoublePredicate.java       IntPredicate.java         LongSupplier.java          Supplier.java
+BiFunction.java            DoubleSupplier.java        IntSupplier.java          LongToDoubleFunction.java  ToDoubleBiFunction.java
+BinaryOperator.java        DoubleToIntFunction.java   IntToDoubleFunction.java  LongToIntFunction.java     ToDoubleFunction.java
+BiPredicate.java           DoubleToLongFunction.java  IntToLongFunction.java    LongUnaryOperator.java     ToIntBiFunction.java
+BooleanSupplier.java       DoubleUnaryOperator.java   IntUnaryOperator.java     ObjDoubleConsumer.java     ToIntFunction.java
+Consumer.java              Function.java              LongBinaryOperator.java   ObjIntConsumer.java        ToLongBiFunction.java
+DoubleBinaryOperator.java  IntBinaryOperator.java     LongConsumer.java         ObjLongConsumer.java       ToLongFunction.java
+DoubleConsumer.java        IntConsumer.java           LongFunction.java         package-info.java          UnaryOperator.java
+DoubleFunction.java        IntFunction.java           LongPredicate.java        Predicate.java
+```
+
+***** Compositions
+Functional interfaces provide ability of composition, like already just demonstrated briefly above in ``IntConsumer::andThen`` but in
+a little more detail below in ``IntUnaryOperator``:
+
+```java
+@FunctionalInterface
+public interface IntUnaryOperator {
+
+    int applyAsInt(int operand);
+
+    default IntUnaryOperator compose(IntUnaryOperator before) {
+        Objects.requireNonNull(before);
+        return (int v) -> applyAsInt(before.applyAsInt(v));
+    }
+
+    default IntUnaryOperator andThen(IntUnaryOperator after) {
+        Objects.requireNonNull(after);
+        return (int t) -> after.applyAsInt(applyAsInt(t));
+    }
+
+    static IntUnaryOperator identity() {
+        return t -> t;
+    }
+}
+``` 
+
+This is an example employing ``compose``:
+
+```java
+Image finalImage = transform(image, compose(Color::brighter, Color::grayscale));
+```
+***** Functions as first class citizens
+Functions as first class citizens is a matter obtaining instances of functional interfaces, like this:
+
+```java
+public static UnaryOperator<Color> brighten(double factor) {
+   return c -> c.deriveColor(0, 1, factor, 1);
+}
+```
+***** Laziness
+This is a concept which addresses storing operations to be applied later instead of applying operations immediately.
+On a later time, you provide the object to be transformed and provide the list of operations to be applied. For example, you
+first define a fluent API like so:
+
+```java
+public class LatentImage {
+    private Image in;
+    private List<UnaryOperator<Color>> pendingOperations;
+
+    LatentImage from(Image in) {
+        this.in = in;
+        return this;
+    }
+
+    LatentImage transform(UnaryOperator<Color> f) {
+        pendingOperations.add(f);
+        return this;
+    }
+
+    Image toImage() {
+        // implementation is not relevant for this explanation
+        ...
+    }
+ ...
+}
+```
+
+Then you define the operations to be applied, employing the fluent API:
+
+```java
+LatentImage latent = 
+    LatentImage
+        .from(image)
+        .transform(Color::brighter)
+        .transform(Color::grayscale);
+```
+
+Then finally you call the method which executes the stored operations:
+
+```java
+Image image = latent.toImage();
+```
+***** Parallel operations
+You can run operation in parallel by obtaining a ``ThreadPool`` from ``Executor``, like examples below:
+
+```java
+ThreadPool single = Executors.newSingleThreadPool(...);    // a single thread
+ThreadPool fixed  = Executors.newFixedThreadPool(n, ...);  // exactly /n/ threads
+ThreadPool cached = Executors.newCachedThreadPool(...);    // create/reuse threads as needed
+ThreadPool sched  = Executors.newScheduledThreadPool(...); // ability to run commands later
+ThreadPool worker = Executors.newWorkStealingPool(...);    // ability to use all available processors
+```
+
+Once you've choosen which kind of ``ThreadPool`` is needed, you can run lambda functions like the snippet below:
+
+```java
+public static Result parallelTransform(Data[] data, UnaryOperator<Data> f) {
+ ...
+    try {
+        ExecutorService pool = Executors.newCachedThreadPool();
+        ...
+        for (int i=0; i<n; i++) {
+            pool.submit(() -> { f.apply( data[i] ); }
+        }
+        ...
+        pool.shutdown();
+        pool.awaitTermination(1, TimeUnit.HOURS);
+    }
+ ...
+}
+```
+***** Dealing with exceptions
+A best practice is handling exceptions inside your logic and avoid checked exceptions as much as you can. If you choose
+checked exceptions, you will have to create customized versions of functional interfaces, which is not convenient in
+general and would make composition with legacy or future code more difficult. This is a recipe of a wrapper exception
+handler:
+
+```java
+public static <T> Supplier<T> unchecked(Callable<T> f) {
+    return () -> {
+        try {
+            return f.call();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } catch (Throwable t) {
+            throw t;
+        }
+    };
+}
+```
+
+And this is how it could be employed:
+
+```java
+unchecked(() -> 
+    new String(
+        Files.readAllBytes(
+            Paths.get("/etc/passwd")), StandardCharsets.UTF_8))
+```
+
+*NOTE:* ``Optional`` and descendents provide ``orElseThrow(...)`` like this:
+
+```java
+public final class Optional<T> {
+ ...
+    public <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier) throws X {
+        if (value != null) {
+            return value;
+        } else {
+            throw exceptionSupplier.get();
+        }
+    }
+ ...
+}
+```
+***** Monadic Operations
+
+empty, map, flatMap
+
 **** Collections
 Methods added to Collection Classes
 | class/interface | new methods                                                                                                      |
@@ -272,5 +532,3 @@ String.join(", ", a, b, c);
 
 ***** Tail recursion @tailrec
 ***** Delimited continuations @cps
-
- 
